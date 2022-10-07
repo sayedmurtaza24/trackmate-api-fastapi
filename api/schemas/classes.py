@@ -1,0 +1,38 @@
+from pydantic import BaseModel, Field
+
+
+class PostClassIn(BaseModel):
+    name: str = Field(title="Class name",
+                      example="Class 3A",
+                      description="Name of the teachers class to be created",
+                      regex="[a-zA-Z0-9 ]+",
+                      max_length=20,
+                      min_length=1)
+    
+class PostClassOut(BaseModel):
+    id: int
+    name: str
+    
+    class Config:
+        orm_mode = True
+
+class GetClassOutStudent(BaseModel):
+    id: int
+    name: str
+    
+    class Config:
+        orm_mode = True
+    
+class GetClassOutAll(BaseModel):
+    classes: list[PostClassOut] | None
+        
+    class Config:
+        orm_mode = True
+
+class GetClassOutOne(BaseModel):
+    id: int
+    name: str
+    students: list[GetClassOutStudent] | None
+    
+    class Config:
+        orm_mode = True

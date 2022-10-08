@@ -1,19 +1,19 @@
 version: "3.9"
 services:
-  # web:
-    # container_name: server
-    # build: ./
-    # command: uvicorn --host 0.0.0.0 --port 4000
-    # volumes:
-    #   - .:/app
-    # ports:
-    #   - "4000:4000"
-    # env_file:
-    #   - .env
-    # links:
-    #   - db
-    # depends_on:
-    #   - db
+  web:
+    container_name: server
+    build: ./
+    command: uvicorn --host 0.0.0.0 --port 4000
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    env_file:
+      - .env
+    links:
+      - db
+    depends_on:
+      - db
 
   db:
     image: "postgres"

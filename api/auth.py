@@ -52,9 +52,7 @@ def __logout(authorization: HTTPAuthorizationCredentials = Depends(auth_bearer))
         verified = auth.verify_session_cookie(session_cookie, check_revoked=True)
         
         auth.revoke_refresh_tokens(verified['uid'])
-        
-        print(verified['uid'])
-
+    
         message = {'message': 'Logout Success'}
         
         response = UJSONResponse(message, 200)

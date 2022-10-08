@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import UJSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from api.schemas.auth import PostLoginOut
+from api.schemas.auth import PostLoginOut, PostLogoutOut
 
 cred = credentials.Certificate("./firebase-admin.json")
 initialize_app(cred)
@@ -18,7 +18,7 @@ router = APIRouter(prefix="/api/auth", tags=["Login"])
 def verifyUser(authorization: HTTPAuthorizationCredentials = Depends(auth_bearer)):
     try:
         session_cookie: str = authorization.credentials
-        verified = auth.verify_session_cookie(session_cookie)
+        verified = auth.verify_session_cookie(session_cookie, check_revoked=True)
         
         return verified['email']
     except:
@@ -42,4 +42,26 @@ def __login(id_token: str):
         return response
 
     except:
-        return UJSONResponse({'message': 'Login failed'}, status_code=401)
+        return UJSONResponse({'message': 'Unauthorized'}, status_code=401)
+
+@router.post("/logout", response_model=PostLogoutOut)
+def __logout(authorization: HTTPAuthorizationCredentials = Depends(auth_bearer)):
+    try:
+        session_cookie = authorization.credentials
+        
+        verified = auth.verify_session_cookie(session_cookie, check_revoked=True)
+        
+        auth.revoke_refresh_tokens(verified['uid'])
+        
+        print(verified['uid'])
+
+        message = {'message': 'Logout Success'}
+        
+        response = UJSONResponse(message, 200)
+
+        response.set_cookie('Authorization', '', httponly=True)
+
+        return response
+
+    except:
+        return UJSONResponse({'message': 'Unauthorized'}, status_code=401)

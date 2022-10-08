@@ -6,3 +6,5 @@ class PostLoginOut(BaseModel):
     message: str = 'Login success'
     token: Union[str,None]
     
+class PostLogoutOut(BaseModel):
+    message: str = 'Logout success'

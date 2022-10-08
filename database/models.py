@@ -13,11 +13,11 @@ class Assessment(Base):
     perf_comment = Column(Text)
     behave_comment = Column(Text)
     
-    student_id = Column("Student", ForeignKey("student.id"))
+    student_id = Column("Student", ForeignKey("students.id"))
     student = relationship("Student", back_populates="assessments")
     
 class Student(Base):
-    __tablename__ = "student"
+    __tablename__ = "students"
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     dob = Column(Date, nullable=False)
@@ -25,23 +25,23 @@ class Student(Base):
     emergency_contact_phone = Column(String, nullable=True)
     emergency_contact_email = Column(String, nullable=True)
     
-    class_id = Column(Integer, ForeignKey('class.id'))
+    class_id = Column(Integer, ForeignKey('classes.id'))
     class_ = relationship("Class", back_populates="students")
     
     assessments = relationship("Assessment", cascade="all, delete-orphan", back_populates="student")
     
 class Class(Base):
-    __tablename__ = 'class'
+    __tablename__ = 'classes'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     
-    teacher_id = Column(Integer, ForeignKey('teacher.id'))
+    teacher_id = Column(Integer, ForeignKey('teachers.id'))
     teacher = relationship("Teacher", back_populates="classes")
     
     students = relationship("Student", cascade="all, delete-orphan", back_populates="class_")
     
 class Teacher(Base):
-    __tablename__ = 'teacher'
+    __tablename__ = 'teachers'
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)

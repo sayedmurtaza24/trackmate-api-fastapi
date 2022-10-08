@@ -1,4 +1,5 @@
 import datetime
+from typing import Union
 from pydantic import BaseModel, Field
 
 
@@ -20,8 +21,8 @@ class GetPostStudentOut(BaseModel):
     name: str
     dob: datetime.date
     gender: str
-    emergency_contact_phone: str | None
-    emergency_contact_email: str | None
+    emergency_contact_phone: Union[str, None]
+    emergency_contact_email: Union[str, None]
     assessments: list[GetStudentAssessmentOut]
 
     class Config:
@@ -35,9 +36,9 @@ class PostStudentIn(BaseModel):
 
 
 class PatchStudentIn(PostStudentIn):
-    emergency_contact_phone: str | None = Field(title="Students emergency contact number",
+    emergency_contact_phone: Union[str, None] = Field(title="Students emergency contact number",
                                                 regex="[0-9+]+", example="0720123123")
-    emergency_contact_email: str | None = Field(title="Students emergency contact email",
+    emergency_contact_email: Union[str, None] = Field(title="Students emergency contact email",
                                                 regex="[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9.]+",
                                                 example="someone@example.com")
 

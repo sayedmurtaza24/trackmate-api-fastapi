@@ -1,7 +1,8 @@
+from typing import Union
 from pydantic import BaseModel
 
 
 class PostLoginOut(BaseModel):
     message: str = 'Login success'
-    token: str | None
+    token: Union[str,None]
     

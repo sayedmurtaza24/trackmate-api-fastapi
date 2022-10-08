@@ -1,3 +1,4 @@
+from typing import Union
 from pydantic import BaseModel, Field
 
 
@@ -24,7 +25,7 @@ class GetClassOutStudent(BaseModel):
         orm_mode = True
     
 class GetClassOutAll(BaseModel):
-    classes: list[PostClassOut] | None
+    classes: Union[list[PostClassOut],None]
         
     class Config:
         orm_mode = True
@@ -32,7 +33,7 @@ class GetClassOutAll(BaseModel):
 class GetClassOutOne(BaseModel):
     id: int
     name: str
-    students: list[GetClassOutStudent] | None
+    students: Union[list[GetClassOutStudent],None]
     
     class Config:
         orm_mode = True

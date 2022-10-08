@@ -1,6 +1,7 @@
 firebase-admin.json
-.env
+*.env
 test.py
 .vscode
 __pycache__/
 *.py[cod]
+.deta

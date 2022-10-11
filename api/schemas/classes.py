@@ -48,5 +48,5 @@ class GetClassStatisticsOut(BaseModel):
     presenceRateWeekly: float
     goodPerfRateWeekly: float
     goodBehaveRateWeekly: float
-    weeklyData: dict[str, WeekData]
+    weeklyData: dict[str, WeekData] = Field(example={'23 2020': WeekData(presenceRate=100, goodPerfRate=90, goodBehaveRate=89)})
     

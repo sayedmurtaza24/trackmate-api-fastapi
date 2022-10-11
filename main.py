@@ -12,7 +12,7 @@ app = FastAPI(
     title="TrackMate API",
     description="""A RESTful API for managing students presence, 
                    academic performance and academic behavior in schools.""",
-    version="1.0.1",
+    version="1.1.0",
     license_info={
         "name": "Apache 2.0",
         "url": "https://www.apache.org/licenses/LICENSE-2.0.html",

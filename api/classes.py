@@ -45,15 +45,11 @@ async def __get_statistics_of_a_class(
     total_weeks = 0
     for row in result:
         total, presence, gdperf, gdbehave, weekNo, year = row
-        if weekdata.get(f"{int(weekNo)} {year}") is None:
-            weekdata[f"{int(weekNo)} {year}"] = {
-                'presenceRate': 0,
-                'goodPerfRate': 0,
-                'goodBehaveRate': 0,
-            }
-        weekdata.get(f"{int(weekNo)} {year}")['presenceRate'] += presence
-        weekdata.get(f"{int(weekNo)} {year}")['goodPerfRate'] += gdperf
-        weekdata.get(f"{int(weekNo)} {year}")['goodBehaveRate'] += gdbehave
+        weekdata[f"{int(weekNo)} {year}"] = {
+            'presenceRate': presence / total * 100,
+            'goodPerfRate': gdperf / total * 100,
+            'goodBehaveRate': gdbehave / total * 100,
+        }
         presence_rate += presence / total
         goodperf_rate += gdperf / total
         goodbehave_rate += gdbehave / total

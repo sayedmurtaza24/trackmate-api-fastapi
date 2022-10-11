@@ -5,7 +5,7 @@ from pydantic import BaseModel, Field
 
 class GetStudentAssessmentOut(BaseModel):
     id: int
-    date: str
+    date: datetime.date
     present: bool
     good_perf: bool
     good_behave: bool

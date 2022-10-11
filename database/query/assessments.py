@@ -84,3 +84,4 @@ async def delete_an_assessment(db_session: AsyncSession,
     await db_session.delete(assessment)
 
     return True
+

@@ -37,3 +37,16 @@ class GetClassOutOne(BaseModel):
     
     class Config:
         orm_mode = True
+        
+class WeekData(BaseModel):
+    presenceRate: float
+    goodPerfRate: float
+    goodBehaveRate: float
+        
+class GetClassStatisticsOut(BaseModel):
+    totalStudents: int
+    presenceRateWeekly: float
+    goodPerfRateWeekly: float
+    goodBehaveRateWeekly: float
+    weeklyData: dict[str, WeekData]
+    

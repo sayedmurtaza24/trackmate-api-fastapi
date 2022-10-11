@@ -6,14 +6,14 @@ Base = declarative_base()
 class Assessment(Base):
     __tablename__ = "assessments"
     id = Column(Integer, primary_key=True)
-    date = Column(Date, unique=True, nullable=False)
+    date = Column(Date, nullable=False)
     present = Column(Boolean, nullable=False)
     good_perf = Column(Boolean, nullable=False)
     good_behave = Column(Boolean, nullable=False)
     perf_comment = Column(Text)
     behave_comment = Column(Text)
     
-    student_id = Column("Student", ForeignKey("students.id"))
+    student_id = Column(Integer, ForeignKey("students.id"))
     student = relationship("Student", back_populates="assessments")
     
 class Student(Base):

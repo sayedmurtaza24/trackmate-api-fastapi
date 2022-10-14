@@ -48,16 +48,16 @@ async def update_an_assessment(db_session: AsyncSession,
 
     result = await db_session.execute(statement)
 
-    assessment = result.scalars().first()
+    assessment: Assessment = result.scalars().first()
     
     if assessment is None:
         return None
 
-    assessment.name = assessment_in.name
-    assessment.dob = assessment_in.dob
-    assessment.gender = assessment_in.gender
-    assessment.emergency_contact_phone = assessment_in.emergency_contact_phone
-    assessment.emergency_contact_email = assessment_in.emergency_contact_email
+    assessment.present = assessment_in.present
+    assessment.good_perf = assessment_in.good_perf
+    assessment.good_behave = assessment_in.good_behave
+    assessment.perf_comment = assessment_in.perf_comment
+    assessment.behave_comment = assessment_in.behave_comment
 
     await db_session.flush([assessment])
 

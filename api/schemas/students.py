@@ -36,11 +36,15 @@ class PostStudentIn(BaseModel):
 
 
 class PatchStudentIn(PostStudentIn):
-    emergency_contact_phone: Union[str, None] = Field(title="Students emergency contact number",
-                                                regex="[0-9+]+", example="0720123123")
-    emergency_contact_email: Union[str, None] = Field(title="Students emergency contact email",
-                                                regex="[a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9.]+",
-                                                example="someone@example.com")
+    emergency_contact_phone: Union[str, None] = Field(
+        title="Students emergency contact number",
+        regex="([0-9+]+)|^$", example="0720123123")
+    
+    emergency_contact_email: Union[str, None] = Field(
+        title="Students emergency contact email",
+        regex="([a-zA-Z0-9.]+@[a-zA-Z0-9]+.[a-zA-Z0-9.]+)|^$",
+        example="someone@example.com")
+
 
 class DeleteStudentOut(BaseModel):
     message: str = 'student deleted'

@@ -3,7 +3,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from api.schemas.students import PatchStudentIn
 from database.query.classes import find_class_by_id
-from database.models import Class, Teacher, Student
+from database.models import Assessment, Class, Teacher, Student
 
 
 async def find_student_by_id(db_session: AsyncSession, teacher_email: str, student_id: int):
@@ -11,7 +11,7 @@ async def find_student_by_id(db_session: AsyncSession, teacher_email: str, stude
         .options(selectinload(Student.assessments)) \
         .join(Class) \
         .join(Teacher) \
-        .where(Teacher.email == teacher_email, Student.id == student_id)
+        .where(Teacher.email == teacher_email, Student.id == student_id) \
 
     result = await db_session.execute(statement)
 

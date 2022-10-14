@@ -4,6 +4,7 @@ from api.auth import verifyUser
 from api.schemas.general import not_found_response
 from api.schemas.classes import GetClassOutOne, GetClassStatisticsOut, PostClassIn, PostClassOut
 from database.query.classes import add_a_class, find_class_by_id, get_class_statistics
+from fastapi.responses import UJSONResponse
 from database import get_db
 
 router = APIRouter(prefix="/api/classes", tags=["Classes"], responses=not_found_response)
@@ -44,6 +45,7 @@ async def __get_statistics_of_a_class(
     weekdata = {}
     total_weeks = 0
     for row in result:
+        total_weeks += 1
         total, presence, gdperf, gdbehave, weekNo, year = row
         weekdata[f"{int(weekNo)} {year}"] = {
             'presenceRate': presence / total * 100,
@@ -53,15 +55,16 @@ async def __get_statistics_of_a_class(
         presence_rate += presence / total
         goodperf_rate += gdperf / total
         goodbehave_rate += gdbehave / total
-        total_weeks += 1
 
-    return GetClassStatisticsOut(
-        totalStudents=total_students,
-        presenceRateWeekly=presence_rate / total_weeks * 100,
-        goodPerfRateWeekly=goodperf_rate / total_weeks * 100,
-        goodBehaveRateWeekly=goodbehave_rate / total_weeks * 100,
-        weeklyData=weekdata
-    )
+    if total_weeks is not 0:
+        return GetClassStatisticsOut(
+            totalStudents=total_students,
+            presenceRateAverage=presence_rate / total_weeks * 100,
+            goodPerfRateAverage=goodperf_rate / total_weeks * 100,
+            goodBehaveRateAverage=goodbehave_rate / total_weeks * 100,
+            weeklyData=weekdata
+        )
+    return UJSONResponse({'message': 'No statistics found'}, status_code=404)
 
 
 @router.post("/",

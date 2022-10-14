@@ -6,6 +6,7 @@ from database.models import Base
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import UJSONResponse
 from api.schemas.general import validation_error_response, login_fail_response, ValidationError
+from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
 app = FastAPI(
@@ -20,10 +21,17 @@ app = FastAPI(
     responses={**validation_error_response,
                **login_fail_response})
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(_, __):
-    return UJSONResponse(ValidationError().dict(), status_code=403)
+    return UJSONResponse(ValidationError().dict(), status_code=422)
 
 
 @app.on_event('startup')

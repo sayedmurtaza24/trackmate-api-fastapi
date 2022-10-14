@@ -37,7 +37,7 @@ def __login(id_token: str):
         else:
             response = UJSONResponse(message)
 
-        response.set_cookie('Authorization', f'Bearer {session_cookie}', httponly=True)
+        response.set_cookie('Authorization', f'Bearer {session_cookie}')
 
         return response
 
